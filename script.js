@@ -48,13 +48,14 @@ function renderGrid() {
 
   players.forEach((player, pIdx) => {
     let row = `<tr draggable="false" ondrop="handleDrop(${pIdx}); this.classList.remove('drag-over')" ondragover="event.preventDefault()" ondragenter="this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')">
-        <td class="drag-handle" draggable="true" ondragstart="handleDragStart(${pIdx})" style="cursor: grab; text-align: center; vertical-align: middle;">&#9776;</td>
+        <td class="drag-handle" draggable="true" ondragstart="handleDragStart(${pIdx}, event)" style="cursor: grab; text-align: center; vertical-align: middle;">&#9776;</td>
         <td>
           <div class="input-group">
             <button class="btn btn-danger btn-lg" onclick="removePlayer(${pIdx})">&times;</button>
             <input type="text" class="form-control form-control-lg" tabindex="${pIdx + 1}" value="${player}" onchange="players[${pIdx}]=this.value; saveState()" onkeydown="if(event.key==='Enter'){event.preventDefault(); document.querySelector(\`[tabindex='${pIdx + 2}']\`)?.focus()}">
           </div>
         </td>`;
+
     for (let i = 0; i < 6; i++) {
       const pos = lineup[pIdx][i];
       const isConflict =
@@ -86,8 +87,10 @@ function renderGrid() {
     `</tr>`;
 }
 
-function handleDragStart(i) {
+function handleDragStart(i, event) {
   draggedPlayerIndex = i;
+  const rowElement = event.target.closest('tr');
+  event.dataTransfer.setDragImage(rowElement, 0, 0);
 }
 function handleDrop(target) {
   if (draggedPlayerIndex === null || draggedPlayerIndex === target) return;
