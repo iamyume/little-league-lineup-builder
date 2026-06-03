@@ -37,7 +37,7 @@ function loadState() {
 function renderGrid() {
   const header = document.getElementById("grid-header");
   header.innerHTML =
-    "<th></th><th>Name</th>" +
+    `<th class="drag-handle"></th><th>Name</th>` +
     Array(6)
       .fill(0)
       .map((_, i) => `<th class="text-center">${i + 1}</th>`)
@@ -89,28 +89,28 @@ function renderGrid() {
 
 function handleDragStart(i, event) {
   draggedPlayerIndex = i;
-  const rowElement = event.target.closest('tr');
-  rowElement.classList.add('dragging');
+  const rowElement = event.target.closest("tr");
+  rowElement.classList.add("dragging");
   event.dataTransfer.setDragImage(rowElement, 0, 0);
 }
 
 function handleDragEnd() {
-  const dragged = document.querySelector('.dragging');
+  const dragged = document.querySelector(".dragging");
   if (dragged) {
-    dragged.classList.remove('dragging');
+    dragged.classList.remove("dragging");
   }
 }
 function handleDrop(target, event) {
   event.preventDefault();
-  console.log('Drop target:', target, 'Dragged:', draggedPlayerIndex);
+  console.log("Drop target:", target, "Dragged:", draggedPlayerIndex);
   if (draggedPlayerIndex === null || draggedPlayerIndex === target) return;
-  
+
   const p = players.splice(draggedPlayerIndex, 1)[0];
   const l = lineup.splice(draggedPlayerIndex, 1)[0];
-  
+
   players.splice(target, 0, p);
   lineup.splice(target, 0, l);
-  
+
   draggedPlayerIndex = null;
   saveState();
   renderGrid();
@@ -139,13 +139,13 @@ function updateFormation() {
 function exportCSV() {
   const header = ["Name", "1", "2", "3", "4", "5", "6"];
   let csvContent = header.join(",") + "\n";
-  
+
   players.forEach((player, pIdx) => {
     const escapedName = `"${player.replace(/"/g, '""')}"`;
     const row = [escapedName, ...lineup[pIdx]];
     csvContent += row.join(",") + "\n";
   });
-  
+
   const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
@@ -161,10 +161,10 @@ function parseCSVLine(text) {
   const result = [];
   let current = "";
   let inQuotes = false;
-  
+
   for (let i = 0; i < text.length; i++) {
     const char = text[i];
-    
+
     if (char === '"') {
       if (inQuotes && text[i + 1] === '"') {
         current += '"';
@@ -172,7 +172,7 @@ function parseCSVLine(text) {
       } else {
         inQuotes = !inQuotes;
       }
-    } else if (char === ',' && !inQuotes) {
+    } else if (char === "," && !inQuotes) {
       result.push(current);
       current = "";
     } else {
@@ -186,17 +186,19 @@ function parseCSVLine(text) {
 function importCSV(event) {
   const file = event.target.files[0];
   if (!file) return;
-  
+
   const reader = new FileReader();
-  reader.onload = function(e) {
+  reader.onload = function (e) {
     const text = e.target.result;
-    const lines = text.split(/\r?\n/).filter(line => line.trim() !== "");
-    
+    const lines = text.split(/\r?\n/).filter((line) => line.trim() !== "");
+
     if (lines.length <= 1) {
-      alert("Invalid CSV file (must contain at least a header and player row).");
+      alert(
+        "Invalid CSV file (must contain at least a header and player row).",
+      );
       return;
     }
-    
+
     // Detect formation from the parsed data
     let hasLCForRCF = false;
     let hasCF = false;
@@ -212,29 +214,29 @@ function importCSV(event) {
         }
       }
     }
-    
+
     if (hasLCForRCF) {
       formation = "LCF";
     } else if (hasCF) {
       formation = "CF";
     }
-    
+
     const select = document.getElementById("formation-select");
     if (select) {
       select.value = formation;
     }
-    
+
     const parsedPlayers = [];
     const parsedLineup = [];
-    
+
     for (let i = 1; i < lines.length; i++) {
       const line = lines[i];
       const row = parseCSVLine(line);
       if (row.length === 0 || !row[0]) continue;
-      
+
       const name = row[0].trim();
       if (name === "") continue;
-      
+
       const playerLineup = [];
       for (let inning = 1; inning <= 6; inning++) {
         const pos = row[inning] ? row[inning].trim().toUpperCase() : "EH";
@@ -245,11 +247,11 @@ function importCSV(event) {
           playerLineup.push("EH");
         }
       }
-      
+
       parsedPlayers.push(name);
       parsedLineup.push(playerLineup);
     }
-    
+
     if (parsedPlayers.length > 0) {
       players = parsedPlayers;
       lineup = parsedLineup;
@@ -258,7 +260,7 @@ function importCSV(event) {
     } else {
       alert("No players found in CSV.");
     }
-    
+
     event.target.value = "";
   };
   reader.readAsText(file);
@@ -272,8 +274,11 @@ function reversePlayers() {
 }
 
 function randomizePlayers() {
-  const paired = players.map((player, idx) => ({ player, lineupRow: lineup[idx] }));
-  
+  const paired = players.map((player, idx) => ({
+    player,
+    lineupRow: lineup[idx],
+  }));
+
   // Fisher-Yates Shuffle
   for (let i = paired.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -281,10 +286,10 @@ function randomizePlayers() {
     paired[i] = paired[j];
     paired[j] = temp;
   }
-  
-  players = paired.map(item => item.player);
-  lineup = paired.map(item => item.lineupRow);
-  
+
+  players = paired.map((item) => item.player);
+  lineup = paired.map((item) => item.lineupRow);
+
   saveState();
   renderGrid();
 }
