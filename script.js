@@ -51,7 +51,7 @@ function renderGrid() {
         <td>
           <div class="input-group">
             <button class="btn btn-danger btn-lg" onclick="removePlayer(${pIdx})">&times;</button>
-            <input type="text" class="form-control form-control-lg" value="${player}" onchange="players[${pIdx}]=this.value; saveState()">
+            <input type="text" class="form-control form-control-lg" tabindex="${pIdx + 1}" value="${player}" onchange="players[${pIdx}]=this.value; saveState()">
           </div>
         </td>`;
     for (let i = 0; i < 6; i++) {
