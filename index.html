@@ -4,9 +4,12 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Little League Lineup</title>
+        <!-- Halfmoon CSS -->
         <link
-            href="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/css/halfmoon-variables.min.css"
+            href="https://cdn.jsdelivr.net/npm/halfmoon@2.0.2/css/halfmoon.min.css"
             rel="stylesheet"
+            integrity="sha256-RjeFzczeuZHCyS+Gvz+kleETzBF/o84ZRHukze/yv6o="
+            crossorigin="anonymous"
         />
         <link rel="stylesheet" href="style.css" />
     </head>
@@ -35,26 +38,37 @@
                     >
                         Print Lineup
                     </button>
-                    <button class="btn btn-secondary ml-10" onclick="exportCSV()">
+                    <button
+                        class="btn btn-secondary ml-10"
+                        onclick="exportCSV()"
+                    >
                         Export CSV
                     </button>
                     <button
                         class="btn btn-secondary ml-10"
-                        onclick="document.getElementById('csv-import-input').click()"
+                        onclick="
+                            document.getElementById('csv-import-input').click()
+                        "
                     >
                         Import CSV
                     </button>
-                    <button class="btn btn-secondary ml-10" onclick="reversePlayers()">
+                    <button
+                        class="btn btn-secondary ml-10"
+                        onclick="reversePlayers()"
+                    >
                         Reverse Order
                     </button>
-                    <button class="btn btn-secondary ml-10" onclick="randomizePlayers()">
+                    <button
+                        class="btn btn-secondary ml-10"
+                        onclick="randomizePlayers()"
+                    >
                         Randomize Order
                     </button>
                     <input
                         type="file"
                         id="csv-import-input"
                         accept=".csv"
-                        style="display: none;"
+                        style="display: none"
                         onchange="importCSV(event)"
                     />
                 </div>
@@ -64,7 +78,7 @@
                 <div class="table-responsive">
                     <table
                         id="lineup-grid"
-                        class="table table-bordered table-striped"
+                        class="table table-sm table-bordered table-striped"
                     >
                         <thead>
                             <tr id="grid-header"></tr>
