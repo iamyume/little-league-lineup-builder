@@ -35,6 +35,22 @@
                     >
                         Print Lineup
                     </button>
+                    <button class="btn btn-secondary ml-10" onclick="exportCSV()">
+                        Export CSV
+                    </button>
+                    <button
+                        class="btn btn-secondary ml-10"
+                        onclick="document.getElementById('csv-import-input').click()"
+                    >
+                        Import CSV
+                    </button>
+                    <input
+                        type="file"
+                        id="csv-import-input"
+                        accept=".csv"
+                        style="display: none;"
+                        onchange="importCSV(event)"
+                    />
                 </div>
             </div>
 

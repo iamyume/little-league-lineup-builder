@@ -119,6 +119,134 @@ function updateFormation() {
   renderGrid();
 }
 
+function exportCSV() {
+  const header = ["Name", "1", "2", "3", "4", "5", "6"];
+  let csvContent = header.join(",") + "\n";
+  
+  players.forEach((player, pIdx) => {
+    const escapedName = `"${player.replace(/"/g, '""')}"`;
+    const row = [escapedName, ...lineup[pIdx]];
+    csvContent += row.join(",") + "\n";
+  });
+  
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.setAttribute("href", url);
+  link.setAttribute("download", "baseball_lineup.csv");
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
+function parseCSVLine(text) {
+  const result = [];
+  let current = "";
+  let inQuotes = false;
+  
+  for (let i = 0; i < text.length; i++) {
+    const char = text[i];
+    
+    if (char === '"') {
+      if (inQuotes && text[i + 1] === '"') {
+        current += '"';
+        i++;
+      } else {
+        inQuotes = !inQuotes;
+      }
+    } else if (char === ',' && !inQuotes) {
+      result.push(current);
+      current = "";
+    } else {
+      current += char;
+    }
+  }
+  result.push(current);
+  return result;
+}
+
+function importCSV(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const text = e.target.result;
+    const lines = text.split(/\r?\n/).filter(line => line.trim() !== "");
+    
+    if (lines.length <= 1) {
+      alert("Invalid CSV file (must contain at least a header and player row).");
+      return;
+    }
+    
+    // Detect formation from the parsed data
+    let hasLCForRCF = false;
+    let hasCF = false;
+    for (let i = 1; i < lines.length; i++) {
+      const row = parseCSVLine(lines[i]);
+      if (row.length === 0 || !row[0]) continue;
+      for (let j = 1; j < row.length; j++) {
+        const val = row[j] ? row[j].trim().toUpperCase() : "";
+        if (val === "LCF" || val === "RCF") {
+          hasLCForRCF = true;
+        } else if (val === "CF") {
+          hasCF = true;
+        }
+      }
+    }
+    
+    if (hasLCForRCF) {
+      formation = "LCF";
+    } else if (hasCF) {
+      formation = "CF";
+    }
+    
+    const select = document.getElementById("formation-select");
+    if (select) {
+      select.value = formation;
+    }
+    
+    const parsedPlayers = [];
+    const parsedLineup = [];
+    
+    for (let i = 1; i < lines.length; i++) {
+      const line = lines[i];
+      const row = parseCSVLine(line);
+      if (row.length === 0 || !row[0]) continue;
+      
+      const name = row[0].trim();
+      if (name === "") continue;
+      
+      const playerLineup = [];
+      for (let inning = 1; inning <= 6; inning++) {
+        const pos = row[inning] ? row[inning].trim().toUpperCase() : "EH";
+        const validPositions = positions[formation];
+        if (validPositions.includes(pos)) {
+          playerLineup.push(pos);
+        } else {
+          playerLineup.push("EH");
+        }
+      }
+      
+      parsedPlayers.push(name);
+      parsedLineup.push(playerLineup);
+    }
+    
+    if (parsedPlayers.length > 0) {
+      players = parsedPlayers;
+      lineup = parsedLineup;
+      saveState();
+      renderGrid();
+    } else {
+      alert("No players found in CSV.");
+    }
+    
+    event.target.value = "";
+  };
+  reader.readAsText(file);
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   loadState();
   renderGrid();
