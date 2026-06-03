@@ -47,7 +47,7 @@ function renderGrid() {
   body.innerHTML = "";
 
   players.forEach((player, pIdx) => {
-    let row = `<tr draggable="false" ondrop="handleDrop(${pIdx}); this.classList.remove('drag-over')" ondragover="event.preventDefault()" ondragenter="this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondragend="handleDragEnd()">
+    let row = `<tr draggable="false" ondrop="handleDrop(${pIdx}, event); this.classList.remove('drag-over')" ondragover="event.preventDefault()" ondragenter="this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondragend="handleDragEnd()">
         <td class="drag-handle" draggable="true" ondragstart="handleDragStart(${pIdx}, event)" style="cursor: grab; text-align: center; vertical-align: middle;">&#9776;</td>
         <td>
           <div class="input-group">
@@ -100,18 +100,18 @@ function handleDragEnd() {
     dragged.classList.remove('dragging');
   }
 }
-function handleDrop(target) {
+function handleDrop(target, event) {
+  event.preventDefault();
+  console.log('Drop target:', target, 'Dragged:', draggedPlayerIndex);
   if (draggedPlayerIndex === null || draggedPlayerIndex === target) return;
   
   const p = players.splice(draggedPlayerIndex, 1)[0];
   const l = lineup.splice(draggedPlayerIndex, 1)[0];
   
-  // Adjust target because we already removed the element at draggedPlayerIndex
-  const insertIndex = (draggedPlayerIndex < target) ? target : target;
+  players.splice(target, 0, p);
+  lineup.splice(target, 0, l);
   
-  players.splice(insertIndex, 0, p);
-  lineup.splice(insertIndex, 0, l);
-  
+  draggedPlayerIndex = null;
   saveState();
   renderGrid();
 }
