@@ -7,10 +7,11 @@
 #grid-body tr.drag-over td {
     background-color: #e9ecef;
     height: 60px;
-    pointer-events: none;
 }
-#grid-body tr.drag-over td * {
-    opacity: 0;
+#grid-body tr.drag-over td input,
+#grid-body tr.drag-over td button,
+#grid-body tr.drag-over td select {
+    visibility: hidden;
 }
 
 #lineup-grid th,

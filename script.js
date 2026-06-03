@@ -90,11 +90,16 @@ function handleDragStart(i) {
 }
 function handleDrop(target) {
   if (draggedPlayerIndex === null || draggedPlayerIndex === target) return;
+  
   const p = players.splice(draggedPlayerIndex, 1)[0];
   const l = lineup.splice(draggedPlayerIndex, 1)[0];
-  const insert = target > draggedPlayerIndex ? target : target;
+  
+  // If we removed something before target, target index decreased by 1
+  const insert = (draggedPlayerIndex < target) ? target - 1 : target;
+  
   players.splice(insert, 0, p);
   lineup.splice(insert, 0, l);
+  
   saveState();
   renderGrid();
 }
