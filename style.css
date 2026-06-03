@@ -8,8 +8,16 @@
     background-color: #e9ecef;
     height: 60px;
 }
+#grid-body tr .drag-handle {
+    cursor: move !important;
+}
 #grid-body tr.dragging {
-    visibility: hidden;
+    display: none;
+}
+#grid-body tr.drag-over td {
+    background-color: #e9ecef;
+    height: 60px;
+    visibility: visible;
 }
 #grid-body tr.drag-over td input,
 #grid-body tr.drag-over td button,
