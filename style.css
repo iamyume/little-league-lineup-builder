@@ -4,8 +4,13 @@
 #grid-body tr {
     cursor: move;
 }
-#grid-body tr.drag-over {
-    border-top: 2px solid #6c757d;
+#grid-body tr.drag-over td {
+    background-color: #e9ecef;
+    height: 60px;
+    pointer-events: none;
+}
+#grid-body tr.drag-over td * {
+    opacity: 0;
 }
 
 #lineup-grid th,
