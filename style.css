@@ -126,7 +126,9 @@
 
     /* Stylings for form inputs and dropdowns to look like flat text */
     input.form-control,
-    select.form-control {
+    input.form-control-lg,
+    select.form-select,
+    select.form-select-lg {
         border: none !important;
         background: transparent !important;
         box-shadow: none !important;

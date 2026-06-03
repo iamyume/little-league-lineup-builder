@@ -51,7 +51,7 @@ function renderGrid() {
         <td>
           <div class="input-group">
             <button class="btn btn-danger" onclick="removePlayer(${pIdx})">&times;</button>
-            <input type="text" class="form-control" value="${player}" onchange="players[${pIdx}]=this.value; saveState()">
+            <input type="text" class="form-control form-control-lg" value="${player}" onchange="players[${pIdx}]=this.value; saveState()">
           </div>
         </td>`;
     for (let i = 0; i < 6; i++) {
@@ -63,7 +63,7 @@ function renderGrid() {
           (_, otherPIdx) => otherPIdx !== pIdx && lineup[otherPIdx][i] === pos,
         );
       row += `<td class="${isConflict ? "conflict" : ""}">
-                <select class="form-control" onchange="lineup[${pIdx}][${i}]=this.value; saveState(); renderGrid()">
+                <select class="form-select form-select-lg" onchange="lineup[${pIdx}][${i}]=this.value; saveState(); renderGrid()">
                     ${positions[formation].map((p) => `<option value="${p}" ${pos === p ? "selected" : ""}>${p}</option>`).join("")}
                 </select>
             </td>`;
