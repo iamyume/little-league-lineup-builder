@@ -37,7 +37,7 @@ function loadState() {
 function renderGrid() {
   const header = document.getElementById("grid-header");
   header.innerHTML =
-    "<th>Name</th>" +
+    "<th></th><th>Name</th>" +
     Array(6)
       .fill(0)
       .map((_, i) => `<th class="text-center">${i + 1}</th>`)
@@ -48,6 +48,7 @@ function renderGrid() {
 
   players.forEach((player, pIdx) => {
     let row = `<tr draggable="true" ondragstart="handleDragStart(${pIdx})" ondrop="handleDrop(${pIdx}); this.classList.remove('drag-over')" ondragover="event.preventDefault()" ondragenter="this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')">
+        <td class="drag-handle" style="cursor: grab; text-align: center;">&#9776;</td>
         <td>
           <div class="input-group">
             <button class="btn btn-danger btn-lg" onclick="removePlayer(${pIdx})">&times;</button>
