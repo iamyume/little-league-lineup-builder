@@ -111,9 +111,99 @@
         height: auto !important;
     }
 
-    /* Column widths: Total 100% */
+#lineup-grid th:first-child,
+#lineup-grid td.drag-handle {
+    width: 40px !important;
+    min-width: 40px !important;
+    max-width: 40px !important;
+}
+
+@media print {
+    /* Set page layout and orientation */
+    @page {
+        size: portrait;
+        margin: 0.3in 0.4in;
+    }
+
+    /* Set body styles */
+    body {
+        background-color: #fff !important;
+        color: #000 !important;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        font-size: 14pt !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* Hide control/interactive elements and table footer */
+    .btn,
+    .btn-danger,
+    .p-2:first-of-type,
+    #formation-select,
+    label,
+    .d-flex,
+    #grid-footer {
+        display: none !important;
+    }
+
+    /* Hide drag handle column */
     #lineup-grid th:first-child,
-    #lineup-grid td:first-child {
+    #lineup-grid td.drag-handle {
+        display: none !important;
+    }
+
+    /* Container adjustments */
+    .container-fluid {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .p-2.mt-2 {
+        padding: 0 !important;
+        margin-top: 0 !important;
+    }
+
+    .table-responsive {
+        overflow: visible !important;
+    }
+
+    /* Page title styling */
+    h1 {
+        font-size: 26pt !important;
+        font-weight: bold !important;
+        text-align: center !important;
+        margin-top: 0 !important;
+        margin-bottom: 25px !important;
+        text-transform: uppercase !important;
+        letter-spacing: 1px !important;
+        border-bottom: 3px solid #000 !important;
+        padding-bottom: 10px !important;
+    }
+
+    /* Table styling */
+    #lineup-grid {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        table-layout: fixed !important; /* Force exact column sizing */
+        margin-bottom: 15px !important;
+    }
+
+    #lineup-grid th,
+    #lineup-grid td {
+        border: 2px solid #000 !important; /* Thick borders for clarity */
+        padding: 10px 6px !important; /* Larger padding for big fonts */
+        font-size: 14pt !important;
+        vertical-align: middle !important;
+        height: auto !important;
+    }
+
+    /* Column widths: Total 100% */
+    #lineup-grid th:nth-child(2),
+    #lineup-grid td:nth-child(2) {
         width: 25% !important;
         min-width: unset !important;
         max-width: unset !important;
@@ -122,12 +212,84 @@
         font-weight: bold !important;
     }
 
-    #lineup-grid th:not(:first-child),
-    #lineup-grid td:not(:first-child) {
+    #lineup-grid th:not(:first-child):not(:nth-child(2)),
+    #lineup-grid td:not(:first-child):not(:nth-child(2)) {
         width: 12.5% !important;
         min-width: unset !important;
         max-width: unset !important;
         text-align: center !important;
+    }
+
+    /* Stylings for form inputs and dropdowns to look like flat text */
+    input.form-control,
+    input.form-control-lg,
+    select.form-select,
+    select.form-select-lg {
+        border: none !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        outline: none !important;
+        font-size: 14pt !important;
+        font-weight: bold !important;
+        color: #000 !important;
+        width: 100% !important;
+        text-align: center !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        appearance: none !important;
+        -webkit-appearance: none !important;
+        -moz-appearance: none !important;
+    }
+
+    /* Align player names to left in print */
+    #lineup-grid td:nth-child(2) input.form-control {
+        text-align: left !important;
+    }
+
+    .input-group {
+        display: block !important;
+        border: none !important;
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+
+    /* Missing players/positions footer styling */
+    #grid-footer td {
+        font-size: 11pt !important;
+        font-weight: normal !important;
+        color: #333 !important;
+        background-color: #f0f0f0 !important;
+        border: 2px solid #000 !important;
+        padding: 8px !important;
+    }
+
+    /* Keep table rows on the same page */
+    tr {
+        page-break-inside: avoid !important;
+    }
+}
+
+
+@media print {
+    /* ... existing print styles ... */
+    
+    /* Hide drag handle column */
+    #lineup-grid th:first-child,
+    #lineup-grid td.drag-handle {
+        display: none !important;
+    }
+    
+    /* Adjust first column (now Name) back to start */
+    #lineup-grid th:nth-child(2),
+    #lineup-grid td:nth-child(2) {
+        width: 25% !important;
+    }
+
+    
+    /* Adjust first column (now Name) back to start */
+    #lineup-grid th:nth-child(2),
+    #lineup-grid td:nth-child(2) {
+        width: 25% !important;
     }
 
     /* Stylings for form inputs and dropdowns to look like flat text */

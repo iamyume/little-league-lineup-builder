@@ -47,8 +47,8 @@ function renderGrid() {
   body.innerHTML = "";
 
   players.forEach((player, pIdx) => {
-    let row = `<tr draggable="true" ondragstart="handleDragStart(${pIdx})" ondrop="handleDrop(${pIdx}); this.classList.remove('drag-over')" ondragover="event.preventDefault()" ondragenter="this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')">
-        <td class="drag-handle" style="cursor: grab; text-align: center;">&#9776;</td>
+    let row = `<tr draggable="false" ondrop="handleDrop(${pIdx}); this.classList.remove('drag-over')" ondragover="event.preventDefault()" ondragenter="this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')">
+        <td class="drag-handle" draggable="true" ondragstart="handleDragStart(${pIdx})" style="cursor: grab; text-align: center;">&#9776;</td>
         <td>
           <div class="input-group">
             <button class="btn btn-danger btn-lg" onclick="removePlayer(${pIdx})">&times;</button>
