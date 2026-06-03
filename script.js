@@ -50,7 +50,7 @@ function renderGrid() {
     let row = `<tr draggable="true" ondragstart="handleDragStart(${pIdx})" ondrop="handleDrop(${pIdx})" ondragover="event.preventDefault()">
         <td>
           <div class="input-group">
-            <button class="btn btn-danger" onclick="removePlayer(${pIdx})">&times;</button>
+            <button class="btn btn-danger btn-lg" onclick="removePlayer(${pIdx})">&times;</button>
             <input type="text" class="form-control form-control-lg" value="${player}" onchange="players[${pIdx}]=this.value; saveState()">
           </div>
         </td>`;
