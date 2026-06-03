@@ -76,7 +76,7 @@ function renderGrid() {
 
   const footer = document.getElementById("grid-footer");
   footer.innerHTML =
-    `<tr><td>Missing</td>` +
+    `<tr><td></td><td>Missing</td>` +
     Array(6)
       .fill(0)
       .map((_, inning) => {
@@ -106,12 +106,11 @@ function handleDrop(target) {
   const p = players.splice(draggedPlayerIndex, 1)[0];
   const l = lineup.splice(draggedPlayerIndex, 1)[0];
   
-  // The insertion index should be simply the target.
-  // Because we've already removed the dragged item, the indices
-  // of subsequent items have shifted, making the target index
-  // the correct position to insert the item.
-  players.splice(target, 0, p);
-  lineup.splice(target, 0, l);
+  // Adjust target because we already removed the element at draggedPlayerIndex
+  const insertIndex = (draggedPlayerIndex < target) ? target : target;
+  
+  players.splice(insertIndex, 0, p);
+  lineup.splice(insertIndex, 0, l);
   
   saveState();
   renderGrid();
