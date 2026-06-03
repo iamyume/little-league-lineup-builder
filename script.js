@@ -10,6 +10,30 @@ let lineup = Array(12)
 
 let draggedPlayerIndex = null;
 
+function saveState() {
+  localStorage.setItem("baseball_players", JSON.stringify(players));
+  localStorage.setItem("baseball_formation", formation);
+  localStorage.setItem("baseball_lineup", JSON.stringify(lineup));
+}
+
+function loadState() {
+  const savedPlayers = localStorage.getItem("baseball_players");
+  const savedFormation = localStorage.getItem("baseball_formation");
+  const savedLineup = localStorage.getItem("baseball_lineup");
+
+  if (savedPlayers) {
+    players = JSON.parse(savedPlayers);
+  }
+  if (savedFormation) {
+    formation = savedFormation;
+    const select = document.getElementById("formation-select");
+    if (select) select.value = formation;
+  }
+  if (savedLineup) {
+    lineup = JSON.parse(savedLineup);
+  }
+}
+
 function renderGrid() {
   const header = document.getElementById("grid-header");
   header.innerHTML =
@@ -27,7 +51,7 @@ function renderGrid() {
         <td>
           <div class="input-group">
             <button class="btn btn-danger" onclick="removePlayer(${pIdx})">&times;</button>
-            <input type="text" class="form-control" value="${player}" onchange="players[${pIdx}]=this.value">
+            <input type="text" class="form-control" value="${player}" onchange="players[${pIdx}]=this.value; saveState()">
           </div>
         </td>`;
     for (let i = 0; i < 6; i++) {
@@ -39,7 +63,7 @@ function renderGrid() {
           (_, otherPIdx) => otherPIdx !== pIdx && lineup[otherPIdx][i] === pos,
         );
       row += `<td class="${isConflict ? "conflict" : ""}">
-                <select class="form-control" onchange="lineup[${pIdx}][${i}]=this.value; renderGrid()">
+                <select class="form-control" onchange="lineup[${pIdx}][${i}]=this.value; saveState(); renderGrid()">
                     ${positions[formation].map((p) => `<option value="${p}" ${pos === p ? "selected" : ""}>${p}</option>`).join("")}
                 </select>
             </td>`;
@@ -71,24 +95,31 @@ function handleDrop(target) {
   const insert = target > draggedPlayerIndex ? target : target;
   players.splice(insert, 0, p);
   lineup.splice(insert, 0, l);
+  saveState();
   renderGrid();
 }
 
 function removePlayer(i) {
   players.splice(i, 1);
   lineup.splice(i, 1);
+  saveState();
   renderGrid();
 }
 
 function addPlayer() {
   players.push(`Player ${players.length + 1}`);
   lineup.push(Array(6).fill("EH"));
+  saveState();
   renderGrid();
 }
 
 function updateFormation() {
   formation = document.getElementById("formation-select").value;
+  saveState();
   renderGrid();
 }
 
-document.addEventListener("DOMContentLoaded", renderGrid);
+document.addEventListener("DOMContentLoaded", () => {
+  loadState();
+  renderGrid();
+});
