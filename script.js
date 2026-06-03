@@ -247,6 +247,31 @@ function importCSV(event) {
   reader.readAsText(file);
 }
 
+function reversePlayers() {
+  players.reverse();
+  lineup.reverse();
+  saveState();
+  renderGrid();
+}
+
+function randomizePlayers() {
+  const paired = players.map((player, idx) => ({ player, lineupRow: lineup[idx] }));
+  
+  // Fisher-Yates Shuffle
+  for (let i = paired.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = paired[i];
+    paired[i] = paired[j];
+    paired[j] = temp;
+  }
+  
+  players = paired.map(item => item.player);
+  lineup = paired.map(item => item.lineupRow);
+  
+  saveState();
+  renderGrid();
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   loadState();
   renderGrid();
