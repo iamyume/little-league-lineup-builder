@@ -19,3 +19,4 @@ This is a single-page web application using a Vanilla JS stack with Halfmoon CSS
 - **Adding a player:** Modifies `players` and `lineup` arrays, calls `renderGrid()`.
 - **Reordering:** Drag and drop triggers `handleDrop()` which performs array operations and calls `renderGrid()`.
 - **Validation logic:** Recalculated on every `renderGrid()` call inside the loop for cell rendering.
+- **Git Commits:** After making any changes, create a git commit with a message detailing what was changed.
