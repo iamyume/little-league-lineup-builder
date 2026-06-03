@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Little League Lineup</title>
+    <link href="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/css/halfmoon-variables.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="with-custom-webkit-scrollbar">
+    <div class="container-fluid">
+        <h1>Lineup Builder</h1>
+        <div class="card p-10">
+            <div class="d-flex align-items-center">
+                <button class="btn btn-primary btn-sm mr-10" onclick="addPlayer()">Add Player</button>
+                <label>Formation: 
+                    <select id="formation-select" class="form-control d-inline-block w-auto" onchange="updateFormation()">
+                        <option value="CF">Format 1 (CF)</option>
+                        <option value="LCF">Format 2 (LCF/RCF)</option>
+                    </select>
+                </label>
+                <button class="btn btn-secondary btn-sm ml-auto" onclick="window.print()">Print Lineup</button>
+            </div>
+        </div>
+
+        <div class="card p-10 mt-10">
+            <div class="table-responsive">
+                <table id="lineup-grid" class="table table-bordered table-striped">
+                    <thead><tr id="grid-header"></tr></thead>
+                    <tbody id="grid-body"></tbody>
+                    <tfoot id="grid-footer"></tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
