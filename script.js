@@ -47,7 +47,7 @@ function renderGrid() {
   body.innerHTML = "";
 
   players.forEach((player, pIdx) => {
-    let row = `<tr draggable="false" ondrop="handleDrop(${pIdx}); this.classList.remove('drag-over')" ondragover="event.preventDefault()" ondragenter="this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')">
+    let row = `<tr draggable="false" ondrop="handleDrop(${pIdx}); this.classList.remove('drag-over')" ondragover="event.preventDefault()" ondragenter="this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondragend="handleDragEnd()">
         <td class="drag-handle" draggable="true" ondragstart="handleDragStart(${pIdx}, event)" style="cursor: grab; text-align: center; vertical-align: middle;">&#9776;</td>
         <td>
           <div class="input-group">
@@ -90,7 +90,15 @@ function renderGrid() {
 function handleDragStart(i, event) {
   draggedPlayerIndex = i;
   const rowElement = event.target.closest('tr');
+  rowElement.classList.add('dragging');
   event.dataTransfer.setDragImage(rowElement, 0, 0);
+}
+
+function handleDragEnd() {
+  const dragged = document.querySelector('.dragging');
+  if (dragged) {
+    dragged.classList.remove('dragging');
+  }
 }
 function handleDrop(target) {
   if (draggedPlayerIndex === null || draggedPlayerIndex === target) return;

@@ -8,6 +8,9 @@
     background-color: #e9ecef;
     height: 60px;
 }
+#grid-body tr.dragging {
+    visibility: hidden;
+}
 #grid-body tr.drag-over td input,
 #grid-body tr.drag-over td button,
 #grid-body tr.drag-over td select {
