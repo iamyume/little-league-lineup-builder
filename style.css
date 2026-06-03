@@ -47,13 +47,14 @@
         padding: 0 !important;
     }
 
-    /* Hide control/interactive elements */
+    /* Hide control/interactive elements and table footer */
     .btn,
     .btn-danger,
     .p-10:first-of-type,
     #formation-select,
     label,
-    .d-flex {
+    .d-flex,
+    #grid-footer {
         display: none !important;
     }
 
