@@ -34,8 +34,8 @@
     text-align: center;
 }
 
-#lineup-grid th:not(:first-child),
-#lineup-grid td:not(:first-child) {
+#lineup-grid th:nth-child(n + 3),
+#lineup-grid td:nth-child(n + 3) {
     width: 200px !important;
     min-width: 200px !important;
     max-width: 200px !important;
@@ -111,9 +111,9 @@
         text-align: left !important;
         font-weight: bold !important;
     }
-    #lineup-grid th:not(:first-child):not(:nth-child(2)),
-    #lineup-grid td:not(:first-child):not(:nth-child(2)) {
-        width: 12.5% !important;
+    #lineup-grid th:nth-child(n + 3),
+    #lineup-grid td:nth-child(n + 3) {
+        width: 10% !important;
         text-align: center !important;
     }
     input.form-control,
