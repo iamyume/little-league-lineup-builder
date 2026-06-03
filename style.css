@@ -34,11 +34,16 @@
     text-align: center;
 }
 
+#lineup-grid th:nth-child(2),
+#lineup-grid td:nth-child(2) {
+    min-width: 200px !important;
+    width: 200px !important;
+}
 #lineup-grid th:nth-child(n + 3),
 #lineup-grid td:nth-child(n + 3) {
-    width: 200px !important;
-    min-width: 200px !important;
-    max-width: 200px !important;
+    width: 100px !important;
+    min-width: 100px !important;
+    max-width: 100px !important;
 }
 #grid-footer td {
     white-space: normal !important;
