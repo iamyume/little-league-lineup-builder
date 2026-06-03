@@ -13,10 +13,10 @@ let draggedPlayerIndex = null;
 function renderGrid() {
   const header = document.getElementById("grid-header");
   header.innerHTML =
-    "<th></th>" +
+    "<th>Name</th>" +
     Array(6)
       .fill(0)
-      .map((_, i) => `<th>Inning ${i + 1}</th>`)
+      .map((_, i) => `<th class="text-center">${i + 1}</th>`)
       .join("");
 
   const body = document.getElementById("grid-body");
