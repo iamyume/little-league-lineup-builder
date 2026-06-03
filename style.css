@@ -4,13 +4,19 @@
 #grid-body tr {
     cursor: default;
 }
-/* Style for the row being dragged */
-#grid-body tr.dragging {
-    display: none;
-}
-/* Style for the drop target row */
 #grid-body tr.drag-over td {
-    background-color: #d1e7dd !important;
+    background-color: #e9ecef;
+    height: 60px;
+}
+#grid-body tr.drag-over td {
+    background-color: #e9ecef;
+    height: 60px;
+    visibility: visible;
+}
+#grid-body tr.drag-over td input,
+#grid-body tr.drag-over td button,
+#grid-body tr.drag-over td select {
+    visibility: hidden;
 }
 
 #lineup-grid {
@@ -24,7 +30,11 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-#lineup-grid th:first-child,
+#lineup-grid th:first-child {
+    width: 40px !important;
+    min-width: 40px !important;
+    max-width: 40px !important;
+}
 #lineup-grid td.drag-handle {
     width: 40px !important;
     min-width: 40px !important;
@@ -54,7 +64,9 @@
     body {
         background-color: #fff !important;
         color: #000 !important;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+        font-family:
+            -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+            Arial, sans-serif !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
         font-size: 14pt !important;
